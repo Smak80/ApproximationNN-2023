@@ -83,4 +83,14 @@ class MLP:
                 err_n = np.sum(0.5 * (r_outts - outts) ** 2) / len(outts)
                 e_full_ts.append(err_n)
                 print("Epoche", k, "Test error=", err_n)
-            return e_full_ts
+        return e_full_ts
+
+    def calc(self, inps):
+        outs = np.array([])
+        for i in range(len(inps)):
+            inp = np.array([np.insert(inps[i], 0, 1)])
+            for lr in range(self.__layers - 2):
+                inp = self.nonLinAct(np.dot(inp, self.__w[lr]))
+                outs = np.append(outs,
+                                 self.linAct(np.dot(inp, self.__w[self.__layers - 2])))
+        return outs
