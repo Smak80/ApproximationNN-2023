@@ -9,8 +9,8 @@ def plot2D():
     tsi = ld.getTestInp()
     tso = ld.getTestOut()
 
-    mlp = MLP(ld, (12, 15))
-    e_ts = mlp.learn(epsilon= 25e-4)
+    mlp = MLP(ld, (12, 30))
+    e_tr, e_ts = mlp.learn(epsilon= 25e-4)
     e_ts_x = [i for i in range(1, len(e_ts) + 1)]
     f1 = plt.figure(1)
     fa1 = f1.add_subplot(1, 1, 1)
