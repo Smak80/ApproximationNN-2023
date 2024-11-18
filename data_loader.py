@@ -6,10 +6,10 @@ import numpy as np
 
 class loader:
     def __init__(self,
-                 dimentions = 2,
+                 dimensions = 2,
                  trainPercent = 85.0):
         self.__tp = trainPercent
-        self.__tr, self.__ts = self.__loadData(dimentions)
+        self.__tr, self.__ts = self.__loadData(dimensions)
 
 
     def __loadData(self, dim):

@@ -1,26 +1,25 @@
 import numpy as np
-import data_loader as DataLoader
-
 
 class MLP:
     __a = 1
     __b = 1
 
     def __init__(self,
-                 ld: DataLoader.loader,
-                 neuronNum: tuple = (2)
+                 inp,
+                 out,
+                 tst_inp,
+                 tst_out,
+                 neuron_num: tuple = (2, )
                  ):
         # Количество слоев
-        self.__layers = 2 + len(neuronNum)
+        self.__layers = 2 + len(neuron_num)
         # Количество нейронов на каждом слое
-        inp = ld.getTrainInp()
-        out = ld.getTrainOut()
         nN = [len(inp[0]), len(out[0])]
-        self.__nN = np.insert(nN, 1, neuronNum)
+        self.__nN = np.insert(nN, 1, neuron_num)
         self.__inp = np.array(inp)
         self.__out = np.array(out)
-        self.__tst_inp = np.array(ld.getTestInp())
-        self.__tst_out = np.array(ld.getTestOut())
+        self.__tst_inp = np.array(tst_inp)
+        self.__tst_out = np.array(tst_out)
         self.__w = [np.random.rand(
             self.__nN[i] + 1,
             self.__nN[i + 1] +
@@ -48,7 +47,7 @@ class MLP:
     def learn(self,
               eta = 0.005,
               epoches=1000,
-              epsilon=0.0001):
+              epsilon=0.001):
         e_full_tr = []
         e_full_ts = []
         # Индуцированное локальное поле
@@ -70,7 +69,7 @@ class MLP:
             k += 1
             # Проход по обучающей выборке
             for i in range(len(inp)):
-                l[0] = np.array([np.insert(inp[i], 0, 1)])  # Попробовать вынести за цикл while
+                l[0] = np.array([np.insert(inp[i], 0, 1)])
                 # Прямой проход по сети
                 for j in range(1, self.__layers - 1):
                     # индуцированное локальное поле
@@ -100,12 +99,12 @@ class MLP:
                 for j in range(0, self.__layers - 1):
                     self.__w[j] += deltaW[j].T
             #Ошибка на тестовом множестве
-            outts = self.calc(self.__tst_inp)
+            outts = self.predict(self.__tst_inp)
             r_outts = np.array([self.__tst_out[i][0] for i in range(len(self.__tst_out))])
             err_n = np.sum(0.5 * (r_outts - outts) ** 2) / len(outts)
             e_full_ts.append(err_n)
             #Ошибка на обучающем множестве
-            outtr = self.calc(self.__inp)
+            outtr = self.predict(self.__inp)
             r_outtr = np.array([self.__out[i][0] for i in range(len(self.__out))])
             tr_err_n = np.sum(0.5 * (r_outtr - outtr) ** 2) / len(outtr)
             e_full_tr.append(tr_err_n)
@@ -113,7 +112,7 @@ class MLP:
         return e_full_tr, e_full_ts
 
     #Вычисление выходов по входам обученной сетью
-    def calc(self, inps):
+    def predict(self, inps):
         outs = np.array([])
         # Для каждого входного значения
         for i in range(len(inps)):

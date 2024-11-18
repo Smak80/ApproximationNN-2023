@@ -6,19 +6,22 @@ def plot2D():
     ld = dl.loader(trainPercent=85)
     tri = ld.getTrainInp()
     tro = ld.getTrainOut()
+
     tsi = ld.getTestInp()
     tso = ld.getTestOut()
 
-    mlp = MLP(ld, (12, 30))
+    mlp = MLP(tri, tro, tsi, tso, (15,)) #36,
     e_tr, e_ts = mlp.learn(epsilon= 25e-4)
     e_ts_x = [i for i in range(1, len(e_ts) + 1)]
     f1 = plt.figure(1)
     fa1 = f1.add_subplot(1, 1, 1)
-    out = mlp.calc(tri)
-    fa1.plot(tri, out, "bo")
+    out = mlp.predict(tri)
+
+    fa1.plot(tri, out, "b-")
     fa1.plot(tri, tro, "r+")
 
-    out = mlp.calc(tsi)
+    out = mlp.predict(tsi)
+
     fa1.plot(tsi, out, "gv")
     fa1.plot(tsi, tso, "y+")
 
