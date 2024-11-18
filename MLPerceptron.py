@@ -44,7 +44,7 @@ class MLP:
     def linActDer(self, x):
         return np.array(1)
 
-    def learn(self,
+    def train(self,
               eta = 0.005,
               epoches=1000,
               epsilon=0.001):
@@ -103,11 +103,13 @@ class MLP:
             r_outts = np.array([self.__tst_out[i][0] for i in range(len(self.__tst_out))])
             err_n = np.sum(0.5 * (r_outts - outts) ** 2) / len(outts)
             e_full_ts.append(err_n)
+
             #Ошибка на обучающем множестве
             outtr = self.predict(self.__inp)
             r_outtr = np.array([self.__out[i][0] for i in range(len(self.__out))])
             tr_err_n = np.sum(0.5 * (r_outtr - outtr) ** 2) / len(outtr)
             e_full_tr.append(tr_err_n)
+
             print("Epoche", k, "Train error=", tr_err_n, "Test error=", err_n)
         return e_full_tr, e_full_ts
 

@@ -11,7 +11,7 @@ def plot2D():
     tso = ld.getTestOut()
 
     mlp = MLP(tri, tro, tsi, tso, (15,)) #36,
-    e_tr, e_ts = mlp.learn(epsilon= 25e-4)
+    e_tr, e_ts = mlp.train(epsilon= 25e-4)
     e_ts_x = [i for i in range(1, len(e_ts) + 1)]
     f1 = plt.figure(1)
     fa1 = f1.add_subplot(1, 1, 1)
