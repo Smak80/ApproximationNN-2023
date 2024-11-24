@@ -1,15 +1,16 @@
 import numpy as np
 
+
 class MLP:
-    __a = 1
-    __b = 1
+    __a = 3
+    __b = 2
 
     def __init__(self,
                  inp,
                  out,
                  tst_inp,
                  tst_out,
-                 neuron_num: tuple = (2, )
+                 neuron_num: tuple = (2,)
                  ):
         # Количество слоев
         self.__layers = 2 + len(neuron_num)
@@ -26,27 +27,23 @@ class MLP:
             (0 if i == self.__layers - 2 else 1)
         ) for i in range(self.__layers - 1)]
 
-
     def nonLinAct(self, x):
         return np.array(self.__a * np.tanh(self.__b * x))
-
 
     def nonLinActDer(self, x):
         return np.array(self.__b / self.__a * \
                         (self.__a - self.nonLinAct(x)) * \
                         (self.__a + self.nonLinAct(x)))
 
-
     def linAct(self, x):
         return np.array(x)
-
 
     def linActDer(self, x):
         return np.array(1)
 
     def train(self,
-              eta = 0.005,
-              epoches=1000,
+              eta=0.005,
+              epoches=2000,
               epsilon=0.001):
         e_full_tr = []
         e_full_ts = []
@@ -65,7 +62,8 @@ class MLP:
         # Счетчик эпох
         k = 0
         # Начало процесса обучения
-        while k < 2 or k < epoches and (abs(e_full_ts[k-1] - e_full_ts[k-2]) > epsilon**(3/2) or e_full_ts[k-1] > epsilon):
+        while k < 2 or k < epoches and (
+                abs(e_full_ts[k - 1] - e_full_ts[k - 2]) > epsilon ** (3 / 2) or e_full_ts[k - 1] > epsilon):
             k += 1
             # Проход по обучающей выборке
             for i in range(len(inp)):
@@ -98,13 +96,13 @@ class MLP:
                           for j in range(self.__layers - 1)]
                 for j in range(0, self.__layers - 1):
                     self.__w[j] += deltaW[j].T
-            #Ошибка на тестовом множестве
+            # Ошибка на тестовом множестве
             outts = self.predict(self.__tst_inp)
             r_outts = np.array([self.__tst_out[i][0] for i in range(len(self.__tst_out))])
             err_n = np.sum(0.5 * (r_outts - outts) ** 2) / len(outts)
             e_full_ts.append(err_n)
 
-            #Ошибка на обучающем множестве
+            # Ошибка на обучающем множестве
             outtr = self.predict(self.__inp)
             r_outtr = np.array([self.__out[i][0] for i in range(len(self.__out))])
             tr_err_n = np.sum(0.5 * (r_outtr - outtr) ** 2) / len(outtr)
@@ -113,7 +111,7 @@ class MLP:
             print("Epoche", k, "Train error=", tr_err_n, "Test error=", err_n)
         return e_full_tr, e_full_ts
 
-    #Вычисление выходов по входам обученной сетью
+    # Вычисление выходов по входам обученной сетью
     def predict(self, inps):
         outs = np.array([])
         # Для каждого входного значения
@@ -125,6 +123,6 @@ class MLP:
             # Получение результата на последнем слое
             # и добавлени его в массив выходов
             outs = np.append(outs,
-                             self.linAct(np.dot(inp, self.__w[self.__layers-2]))
-                            )
+                             self.linAct(np.dot(inp, self.__w[self.__layers - 2]))
+                             )
         return outs
