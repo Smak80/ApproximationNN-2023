@@ -7,8 +7,8 @@ import numpy as np
 class loader:
     def __init__(self,
                  dimensions = 2,
-                 trainPercent = 85.0):
-        self.__tp = trainPercent
+                 train_percent = 85.0):
+        self.__tp = train_percent
         self.__tr, self.__ts = self.__loadData(dimensions)
 
 

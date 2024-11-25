@@ -3,7 +3,6 @@ import numpy as np
 class norm:
 
     def __init__(self, data):
-        self.__data = data
         self.__min = np.min(data)
         self.__max = np.max(data)
         self.__avg = np.average(data)

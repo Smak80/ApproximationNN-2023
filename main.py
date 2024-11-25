@@ -5,20 +5,19 @@ from norm import norm as n
 import numpy as np
 
 def plot2D():
-    ld = dl.loader(trainPercent=80)
+    ld = dl.loader(train_percent=80)
     tri = ld.getTrainInp()
     tro = ld.getTrainOut()
 
     tsi = ld.getTestInp()
     tso = ld.getTestOut()
 
-    # xn = n(tri)
-    # yn = n(tro)
-    #
-    # tri = xn.norm(tri)
-    # tro = yn.norm(tro)
-    # tsi = xn.norm(tsi)
-    # tso = yn.norm(tso)
+    xn = n(tri)
+    yn = n(tro)
+    tri = xn.norm(tri)
+    tro = yn.norm(tro)
+    tsi = xn.norm(tsi)
+    tso = yn.norm(tso)
 
     # f0 = plt.figure(0)
     # fa0 = f0.add_subplot(1, 1, 1)
@@ -34,19 +33,19 @@ def plot2D():
     f1 = plt.figure(1)
     fa1 = f1.add_subplot(1, 1, 1)
     out = mlp.predict(tri)
-    # out = yn.denorm(out)
+    out = yn.denorm(out)
 
-    # tri = xn.denorm(tri)
-    # tro = yn.denorm(tro)
+    tri = xn.denorm(tri)
+    tro = yn.denorm(tro)
 
     fa1.plot(tri, out, "b-")
     fa1.plot(tri, tro, "r+")
 
     out = mlp.predict(tsi)
-    # out = yn.denorm(out)
+    out = yn.denorm(out)
 
-    # tsi = xn.denorm(tsi)
-    # tso = yn.denorm(tso)
+    tsi = xn.denorm(tsi)
+    tso = yn.denorm(tso)
 
     fa1.plot(tsi, out, "gv")
     fa1.plot(tsi, tso, "y+")
