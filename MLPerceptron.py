@@ -2,7 +2,7 @@ import numpy as np
 
 
 class MLP:
-    __a = 3
+    __a = 1
     __b = 2
 
     def __init__(self,

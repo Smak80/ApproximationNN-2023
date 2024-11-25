@@ -26,8 +26,8 @@ class loader:
         return [
             [
                 [i / 10],
-                #[math.cos(i / 10) + random.random() * 0.2 - 0.1]
-                [((-i / 10)**3 / 3 + 6*(i/10) - 5) + random.random() * 0.2 - 0.1]
+                [math.cos(i / 10) + random.random() * 0.2 - 0.1]
+                #[((-i / 10)**3 / 3 + 6*(i/10) - 5) + random.random() * 0.2 - 0.1]
             ]
             for i in range(-60, 61)
         ]

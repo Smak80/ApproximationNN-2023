@@ -58,3 +58,7 @@ def plot2D():
     plt.show()
 
 plot2D()
+# a = np.array([[1, 2.5], [5.5, 7]])
+# na = n(a)
+# new_a = na.norm(a)
+# print(new_a)
